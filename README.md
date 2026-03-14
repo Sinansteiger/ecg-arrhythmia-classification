@@ -24,6 +24,33 @@ This project implements an end-to-end **ECG signal classification pipeline** on 
 | Features | 10 statistical/morphological features per beat |
 | Classifier | Random Forest (100 estimators, balanced weights) |
 | Train/Test Split | 80% / 20% stratified |
+| Overall Accuracy | **87%** |
+
+---
+
+## 🔬 Results & Interpretation
+
+> **What do these numbers mean?** Here is a plain-language explanation of the model's performance — no machine learning background required.
+
+### Overall Accuracy: 87%
+
+The model correctly identified the heartbeat type **87 out of every 100 times**. This is a strong result for a statistical feature-based approach (without deep learning).
+
+### Per-Class Performance
+
+| Class | Precision | Recall | What it means in plain language |
+|---|---|---|---|
+| **Normal (N)** | 96% | 90% | The model is excellent at recognizing healthy heartbeats. Out of 14,494 normal beats in the test set, it correctly identified 90% of them. |
+| **Ventricular (V)** | 74% | 68% | Ventricular ectopic beats (a common arrhythmia) were detected reasonably well. These beats look visually distinct, which helps. |
+| **Unknown (Q)** | 71% | 85% | Unclassifiable beats were caught well — the model is cautious and flags unusual patterns. |
+| **Supraventricular (S)** | 28% | 58% | Performance is lower here. This class has very few training examples (only ~500 out of 87,000), making it hard for the model to learn. |
+| **Fusion (F)** | 24% | 73% | Similar challenge — Fusion beats are rare and visually resemble a mix of other classes. |
+
+### Why are some classes harder to detect?
+
+The dataset is highly **imbalanced** — 83% of all heartbeats are Normal, while Supraventricular and Fusion beats together make up less than 1%. This is actually realistic: in a real ECG recording, most beats are normal. However, it means the model has seen far fewer examples of rare arrhythmias, making them harder to learn.
+
+> 💡 **Clinical relevance:** In a real-world screening tool, high recall on dangerous arrhythmias (Ventricular, Supraventricular) is more important than overall accuracy. Missing a dangerous beat is more costly than a false alarm. This is why `class_weight='balanced'` was used in training — to give rare classes more importance.
 
 ---
 
