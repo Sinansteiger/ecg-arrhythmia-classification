@@ -171,5 +171,3 @@ This project is licensed under the MIT License.
 - LinkedIn: [linkedin.com/in/sinan-berke-akça-623716256](https://www.linkedin.com/in/sinan-berke-akça-623716256)
 
 ---
-
-*If you find this project useful, please consider giving it a ⭐*
